@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✨ Find Your Perfect Date Spot 🐱💕</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fce4ec; 
+            color: #333;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            margin: auto;
+        }
+        .question {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        .options button {
+            display: block;
+            width: 100%;
+            margin: 5px 0;
+            padding: 10px;
+            border: none;
+            background-color: #ffb6c1;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .options button:hover {
+            background-color: #ff69b4;
+        }
+        #result {
+            display: none;
+            font-size: 22px;
+            font-weight: bold;
+            margin-top: 20px;
+            color: #d63384;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>✨ Find Your Perfect Date Spot 🐱💕</h2>
+        <div id="question-container">
+            <p class="question" id="question-text"></p>
+            <div class="options" id="options-container"></div>
+        </div>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        const questions = [
+            { text: "🚗 How far do you want to go?", options: ["Nearby 🏠", "A bit far 🚆"], key: "distance" },
+            { text: "🛵 What is your travel option today?", options: ["Walking 🚶‍♂️", "Metro 🚇", "Scooty 🛵"], key: "travel" },
+            { text: "💰 Do you have money to spend today?", options: ["Yes 💸", "No 🙃"], key: "budget" },
+            { text: "🌈 What kind of vibe are you in for today?", options: ["Relaxed & Comfy 🛋️", "Outdoorsy 🌳", "Musical & Artsy 🎨", "Food Adventure 🍽️"], key: "vibe" },
+            { text: "⏳ What time do you plan to go on a date?", options: ["Morning ☀️", "Evening 🌆", "Night 🌙"], key: "time" },
+            { text: "👗 What is your outfit vibe?", options: ["Casual 👕", "Dressed up 👗"], key: "outfit" },
+            { text: "🍕 What kind of food are you craving?", options: ["Ice Cream 🍦", "Pastries 🥐", "Mandi 🍖", "Pasta 🍝", "Full Meal 🍛"], key: "food", condition: (answers) => answers.vibe === "Food Adventure 🍽️" },
+            { text: "🎲 Do you want a surprise element?", options: ["Yes, surprise me! 🎁", "No, let's be specific 🔎"], key: "surprise" }
+        ];
+
+        const places = {
+            "Nearby 🏠": { "Relaxed & Comfy 🛋️": "Lulu Mall 🛍️", "Outdoorsy 🌳": "Marine Drive 🌊", "Musical & Artsy 🎨": "David Hall 🎭", "Food Adventure 🍽️": "Cake Reels 🎂" },
+            "A bit far 🚆": { "Relaxed & Comfy 🛋️": "Aluva Manapuram 🏞️", "Outdoorsy 🌳": "Subhash Park 🍃", "Musical & Artsy 🎨": "Fort Kochi 🏰", "Food Adventure 🍽️": "Pandal Café ☕" }
+        };
+
+        const cafes = {
+            "Ice Cream 🍦": "Paul's Creamery 🍨",
+            "Pastries 🥐": "Coco Tree MG Road Cakes 🎂",
+            "Mandi 🍖": "Kubaba 🍗",
+            "Pasta 🍝": "Cake Reels 🍝",
+            "Full Meal 🍛": "Thaal Kitchen MG Road 🍽️"
+        };
+
+        const surpriseOptions = [
+            "A secret garden cafe with fairy lights ✨",
+            "A rooftop restaurant with a city view 🌃",
+            "A hidden beach spot only locals know 🏝️",
+            "A cozy book café filled with cats 🐱📚",
+            "A beautiful riverside park with benches 🌿",
+            "A museum café with vintage vibes 🎭",
+            "A night market filled with street food 🍢",
+            "A romantic candle-lit restaurant 🕯️",
+            "A surprise picnic under the stars ✨🌌",
+            "Movie Date 🎬 at your favorite theater 🎥",
+            "Temple Date 🛕 for a peaceful and relaxed time"
+        ];
+
+        let currentQuestionIndex = 0;
+        let answers = {};
+
+        function showQuestion() {
+            const questionObj = questions[currentQuestionIndex];
+
+            if (questionObj.condition && !questionObj.condition(answers)) {
+                currentQuestionIndex++;
+                showQuestion();
+                return;
+            }
+
+            document.getElementById("question-text").innerText = questionObj.text;
+            const optionsContainer = document.getElementById("options-container");
+            optionsContainer.innerHTML = "";
+
+            questionObj.options.forEach(option => {
+                const button = document.createElement("button");
+                button.innerText = option;
+                button.onclick = () => {
+                    answers[questionObj.key] = option;
+                    currentQuestionIndex++;
+                    if (currentQuestionIndex < questions.length) {
+                        showQuestion();
+                    } else {
+                        showResult();
+                    }
+                };
+                optionsContainer.appendChild(button);
+            });
+        }
+
+        function showResult() {
+            let chosenPlace = places[answers.distance]?.[answers.vibe];
+
+            // Always select Beach if Scooty is chosen
+            if (answers.travel === "Scooty 🛵") {
+                chosenPlace = "Beach 🏖️";
+            }
+
+            // Override with food selection if Food Adventure is chosen
+            if (answers.vibe === "Food Adventure 🍽️") {
+                chosenPlace = cafes[answers.food] || "A random café ☕";
+            }
+
+            // If Surprise is chosen, pick a random option
+            if (answers.surprise === "Yes, surprise me! 🎁") {
+                chosenPlace = surpriseOptions[Math.floor(Math.random() * surpriseOptions.length)];
+            }
+
+            document.getElementById("question-container").style.display = "none";
+            document.getElementById("result").innerHTML = `✨ Your perfect date spot: <br> <strong>${chosenPlace}</strong> 💕`;
+            document.getElementById("result").style.display = "block";
+        }
+
+        showQuestion();
+    </script>
+</body>
+</html>
