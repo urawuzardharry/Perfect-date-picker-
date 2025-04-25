@@ -62,51 +62,86 @@
             { text: "🚗 How far do you want to go?", options: ["Nearby 🏠", "A bit far 🚆"], key: "distance" },
             { text: "🛵 What is your travel option today?", options: ["Walking 🚶‍♂️", "Metro 🚇", "Scooty 🛵"], key: "travel" },
             { text: "💰 Do you have money to spend today?", options: ["Yes 💸", "No 🙃"], key: "budget" },
-            { text: "🌈 What kind of vibe are you in for today?", options: ["Relaxed & Comfy 🛋️", "Outdoorsy 🌳", "Musical & Artsy 🎨", "Food Adventure 🍽️"], key: "vibe" },
+            { text: "🌈 What kind of vibe are you in for today?", options: ["Relaxed & Comfy 🛋️", "Outdoorsy 🌳", "Musical & Artsy 🎨"], key: "vibe" },
             { text: "⏳ What time do you plan to go on a date?", options: ["Morning ☀️", "Evening 🌆", "Night 🌙"], key: "time" },
             { text: "👗 What is your outfit vibe?", options: ["Casual 👕", "Dressed up 👗"], key: "outfit" },
-            { text: "🍕 What kind of food are you craving?", options: ["Ice Cream 🍦", "Pastries 🥐", "Mandi 🍖", "Pasta 🍝", "Full Meal 🍛"], key: "food", condition: (answers) => answers.vibe === "Food Adventure 🍽️" },
             { text: "🎲 Do you want a surprise element?", options: ["Yes, surprise me! 🎁", "No, let's be specific 🔎"], key: "surprise" }
         ];
 
         const places = {
-            "Nearby 🏠": { "Relaxed & Comfy 🛋️": "Lulu Mall 🛍️", "Outdoorsy 🌳": "Marine Drive 🌊", "Musical & Artsy 🎨": "David Hall 🎭", "Food Adventure 🍽️": "Cake Reels 🎂" },
-            "A bit far 🚆": { "Relaxed & Comfy 🛋️": "Aluva Manapuram 🏞️", "Outdoorsy 🌳": "Subhash Park 🍃", "Musical & Artsy 🎨": "Fort Kochi 🏰", "Food Adventure 🍽️": "Pandal Café ☕" }
+            "Nearby 🏠": {
+                "Relaxed & Comfy 🛋️": "Lulu Mall 🛍️",
+                "Outdoorsy 🌳": "Marine Drive 🌊",
+                "Musical & Artsy 🎨": "David Hall 🎭",
+                "Surprise 🎁": "A secret garden cafe with fairy lights ✨",
+            },
+            "A bit far 🚆": {
+                "Relaxed & Comfy 🛋️": "Aluva Manapuram 🏞️",
+                "Outdoorsy 🌳": "Subhash Park 🍃",
+                "Musical & Artsy 🎨": "Fort Kochi 🏰",
+                "Surprise 🎁": "A rooftop restaurant with a city view 🌃",
+            },
+            "Walking 🚶‍♂️": {
+                "Relaxed & Comfy 🛋️": "Café Coffee Day ☕",
+                "Outdoorsy 🌳": "Mahatma Gandhi Park 🌳",
+                "Musical & Artsy 🎨": "Art Gallery 🖼️",
+                "Surprise 🎁": "A cozy book café filled with cats 🐱📚",
+            },
+            "Metro 🚇": {
+                "Relaxed & Comfy 🛋️": "Aluva Mall 🛍️",
+                "Outdoorsy 🌳": "Subhash Park 🍃",
+                "Musical & Artsy 🎨": "Cochin Cultural Centre 🎶",
+                "Surprise 🎁": "A hidden beach spot only locals know 🏝️",
+            },
+            "Scooty 🛵": {
+                "Relaxed & Comfy 🛋️": "Beach 🏖️",
+                "Outdoorsy 🌳": "Vypin Island 🏝️",
+                "Musical & Artsy 🎨": "Fort Kochi 💃",
+                "Surprise 🎁": "A romantic candle-lit restaurant 🕯️",
+            },
+            "No 🙃": {
+                "Relaxed & Comfy 🛋️": "Public Garden 🌳",
+                "Outdoorsy 🌳": "Marine Drive 🌊",
+                "Musical & Artsy 🎨": "Library 🎶",
+                "Surprise 🎁": "A romantic park bench under the stars 🌌",
+            },
+            "Casual 👕": {
+                "Relaxed & Comfy 🛋️": "Café Chill ☕",
+                "Outdoorsy 🌳": "Beach Walk 🌊",
+                "Musical & Artsy 🎨": "Local Artsy Corner 🎭",
+                "Surprise 🎁": "A hidden park with fairy lights 🌠",
+            },
+            "Dressed up 👗": {
+                "Relaxed & Comfy 🛋️": "High-end Mall 🛍️",
+                "Outdoorsy 🌳": "Botanical Garden 🌺",
+                "Musical & Artsy 🎨": "Theatre Play 🎭",
+                "Surprise 🎁": "A vintage jazz bar 🎷",
+            },
+            "Morning ☀️": {
+                "Relaxed & Comfy 🛋️": "Morning Tea at Café ☕",
+                "Outdoorsy 🌳": "Morning Walk in the Park 🌳",
+                "Musical & Artsy 🎨": "Morning Art Walk 🖼️",
+                "Surprise 🎁": "A picnic at dawn 🌅",
+            },
+            "Evening 🌆": {
+                "Relaxed & Comfy 🛋️": "Evening Movie 🎥",
+                "Outdoorsy 🌳": "Evening Picnic 🌆",
+                "Musical & Artsy 🎨": "Evening Jazz Night 🎷",
+                "Surprise 🎁": "An evening under the stars 🌠",
+            },
+            "Night 🌙": {
+                "Relaxed & Comfy 🛋️": "Late Night Café ☕",
+                "Outdoorsy 🌳": "Late Night Beach Walk 🌊",
+                "Musical & Artsy 🎨": "Night-time Concert 🎶",
+                "Surprise 🎁": "A surprise candle-lit dinner 🕯️",
+            },
         };
-
-        const cafes = {
-            "Ice Cream 🍦": "Paul's Creamery 🍨",
-            "Pastries 🥐": "Coco Tree MG Road Cakes 🎂",
-            "Mandi 🍖": "Kubaba 🍗",
-            "Pasta 🍝": "Cake Reels 🍝",
-            "Full Meal 🍛": "Thaal Kitchen MG Road 🍽️"
-        };
-
-        const surpriseOptions = [
-            "A secret garden cafe with fairy lights ✨",
-            "A rooftop restaurant with a city view 🌃",
-            "A hidden beach spot only locals know 🏝️",
-            "A cozy book café filled with cats 🐱📚",
-            "A beautiful riverside park with benches 🌿",
-            "A museum café with vintage vibes 🎭",
-            "A night market filled with street food 🍢",
-            "A romantic candle-lit restaurant 🕯️",
-            "A surprise picnic under the stars ✨🌌",
-            "Movie Date 🎬 at your favorite theater 🎥",
-            "Temple Date 🛕 for a peaceful and relaxed time"
-        ];
 
         let currentQuestionIndex = 0;
         let answers = {};
 
         function showQuestion() {
             const questionObj = questions[currentQuestionIndex];
-
-            if (questionObj.condition && !questionObj.condition(answers)) {
-                currentQuestionIndex++;
-                showQuestion();
-                return;
-            }
 
             document.getElementById("question-text").innerText = questionObj.text;
             const optionsContainer = document.getElementById("options-container");
@@ -136,13 +171,18 @@
                 chosenPlace = "Beach 🏖️";
             }
 
-            // Override with food selection if Food Adventure is chosen
-            if (answers.vibe === "Food Adventure 🍽️") {
-                chosenPlace = cafes[answers.food] || "A random café ☕";
-            }
-
             // If Surprise is chosen, pick a random option
             if (answers.surprise === "Yes, surprise me! 🎁") {
+                const surpriseOptions = [
+                    "A secret garden cafe with fairy lights ✨",
+                    "A rooftop restaurant with a city view 🌃",
+                    "A hidden beach spot only locals know 🏝️",
+                    "A cozy book café filled with cats 🐱📚",
+                    "A romantic candle-lit restaurant 🕯️",
+                    "A vintage jazz bar 🎷",
+                    "An evening under the stars 🌠",
+                    "A surprise candle-lit dinner 🕯️",
+                ];
                 chosenPlace = surpriseOptions[Math.floor(Math.random() * surpriseOptions.length)];
             }
 
